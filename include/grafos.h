@@ -31,4 +31,13 @@ void destruir_grafo(grafo* grafo);
  */
 void nomear_vertice(grafo* grafo, int vertice, const char* nome);
 
+/**
+ * @brief conecta 2 vertices
+ * 
+ * @param grafo grafo a qual o vertice pertence
+ * @param vertice_origem vertice da qual sai o arco
+ * @param vertice_fim vertice da qual onde o arco chega
+ */
+void conectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim);
+
 #endif

@@ -82,3 +82,14 @@ void nomear_vertice(grafo* grafo, int vertice, const char* nome)
 
     strcpy(grafo->nomes[vertice], nome);
 }
+
+void conectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim)
+{
+    if (grafo == NULL)
+        return;
+
+    if (vertice_origem >= grafo->numero_vertices || vertice_fim >= grafo->numero_vertices)
+        return;
+    
+    grafo->matriz[vertice_origem][vertice_fim] = 1;
+}
