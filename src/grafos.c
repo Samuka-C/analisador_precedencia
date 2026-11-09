@@ -83,6 +83,9 @@ void nomear_vertice(grafo* grafo, int vertice, const char* nome)
     if (vertice >= grafo->numero_vertices)
         return;
 
+    if (strlen(nome) > MAX_VERTICE_NOME_TAMANHO)
+        return;
+
     strcpy(grafo->nomes[vertice], nome);
 }
 
