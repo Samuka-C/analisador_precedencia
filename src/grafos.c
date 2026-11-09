@@ -3,6 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief retorna verdadeiro se o indice do vertice pertence ao grafo
+ */
+int eh_vertice(grafo* grafo, int vertice)
+{
+    return grafo->numero_vertices > vertice && vertice >= 0;
+}
+
 grafo* criar_grafo(int numero_vertices)
 {
     grafo* novo_grafo = (grafo*)malloc(sizeof(grafo));
@@ -80,7 +88,7 @@ void nomear_vertice(grafo* grafo, int vertice, const char* nome)
     if (grafo == NULL)
         return;
 
-    if (vertice >= grafo->numero_vertices)
+    if (!eh_vertice(grafo, vertice))
         return;
 
     if (strlen(nome) > MAX_VERTICE_NOME_TAMANHO)
@@ -94,7 +102,7 @@ void conectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim)
     if (grafo == NULL)
         return;
 
-    if (vertice_origem >= grafo->numero_vertices || vertice_fim >= grafo->numero_vertices)
+    if (!eh_vertice(grafo, vertice_origem) || !eh_vertice(grafo, vertice_fim))
         return;
     
     grafo->matriz[vertice_origem][vertice_fim] = 1;
