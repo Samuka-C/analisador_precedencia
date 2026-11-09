@@ -110,3 +110,14 @@ void conectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim)
     
     grafo->matriz[vertice_origem][vertice_fim] = 1;
 }
+
+void desconectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim)
+{
+    if (grafo == NULL)
+        return;
+
+    if (!eh_vertice(grafo, vertice_origem) || !eh_vertice(grafo, vertice_fim))
+        return;
+    
+    grafo->matriz[vertice_origem][vertice_fim] = 0;
+}
