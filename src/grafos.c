@@ -80,6 +80,9 @@ void nomear_vertice(grafo* grafo, int vertice, const char* nome)
     if (grafo == NULL)
         return;
 
+    if (vertice >= grafo->numero_vertices)
+        return;
+
     strcpy(grafo->nomes[vertice], nome);
 }
 
