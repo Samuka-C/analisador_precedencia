@@ -22,4 +22,13 @@ grafo* criar_grafo(int numero_vertices);
  */
 void destruir_grafo(grafo* grafo);
 
+/**
+ * @brief nomeia um vertice do grafo
+ * 
+ * @param grafo grafo a qual o vertice pertence
+ * @param vertice indice do vertice
+ * @param nome novo nome do vertice
+ */
+void nomear_vertice(grafo* grafo, int vertice, const char* nome);
+
 #endif

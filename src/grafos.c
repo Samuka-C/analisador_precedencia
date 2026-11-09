@@ -74,3 +74,11 @@ void destruir_grafo(grafo* grafo)
 
     free(grafo);
 }
+
+void nomear_vertice(grafo* grafo, int vertice, const char* nome)
+{
+    if (grafo == NULL)
+        return;
+
+    strcpy(grafo->nomes[vertice], nome);
+}
