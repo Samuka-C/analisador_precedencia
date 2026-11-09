@@ -8,6 +8,9 @@
  */
 int eh_vertice(grafo* grafo, int vertice)
 {
+    if (grafo == NULL)
+        return 0;
+
     return grafo->numero_vertices > vertice && vertice >= 0;
 }
 
