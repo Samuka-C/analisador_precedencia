@@ -7,5 +7,7 @@ int main()
 {
     grafo* grafo = ler_grafo("grafo_0");
 
+    printar_grafo(grafo);
+
     return 0;
 }

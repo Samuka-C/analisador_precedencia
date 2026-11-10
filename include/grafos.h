@@ -49,4 +49,9 @@ void conectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim);
  */
 void desconectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim);
 
+/**
+ * @brief printa o grafo mostrando todas as arestas e o nome dos vertices
+ */
+void printar_grafo(grafo* grafo);
+
 #endif

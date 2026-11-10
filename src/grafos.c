@@ -1,5 +1,6 @@
 #include <grafos.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -120,4 +121,18 @@ void desconectar_vertice(grafo* grafo, int vertice_origem, int vertice_fim)
         return;
     
     grafo->matriz[vertice_origem][vertice_fim] = 0;
+}
+
+void printar_grafo(grafo* grafo)
+{
+    for (int i = 0; i < grafo->numero_vertices; i++)
+    {
+        for (int j = 0; j < grafo->numero_vertices; j++)
+        {
+            if (grafo->matriz[i][j])
+            {
+                printf("%s -> %s\n", grafo->nomes[i], grafo->nomes[j]);
+            }
+        }
+    }
 }
