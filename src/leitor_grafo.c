@@ -101,10 +101,32 @@ grafo* ler_grafo(const char* grafo_txt_nome)
     int numero_de_linhas = 0;
     char** linhas = ler_arquivo(caminho_arquivo, &numero_de_linhas);
 
+    int numero_vertices = 0;
+    grafo* novo_grafo = NULL;
+
     for (int contador_linha = 0; contador_linha < numero_de_linhas; contador_linha++)
     {
         char* linha = linhas[contador_linha];
+        
+        if (contador_linha == 0)
+        {
+            sscanf(linha, "%d", &numero_vertices);
+            novo_grafo = criar_grafo(numero_vertices);
+            continue;
+        }
+
+        if (contador_linha <= numero_vertices)
+        {
+            int vertice_id = contador_linha - 1;
+            nomear_vertice(novo_grafo, vertice_id, linha);
+            continue;
+        }
+
+        int vertice_1, vertice_2;
+        sscanf(linha, "%d->%d", &vertice_1, &vertice_2);
+
+        conectar_vertice(novo_grafo, vertice_1, vertice_2);
     }
 
-    return criar_grafo(10);
+    return novo_grafo;
 }
