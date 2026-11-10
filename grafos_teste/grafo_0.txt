@@ -1,27 +1,28 @@
 12
 acordar
 se levantar
-colocar o oculos
-tirar pijama
 escovar os dentes
-colocar roupa intima
-vestir calca
+tirar o pijama
+lavar o rosto
+vestir roupa intima
 vestir camisa
+vestir calca
 vestir meia
-vestir sapato
+calcar sapato
 tomar cafe da manha
 sair
 0->1
 1->2
 1->3
 1->4
+2->10
 3->5
+4->10
 5->6
 5->7
 5->8
-8->9
-4->10
 6->10
-7->10
+7->9
+8->9
 9->10
 10->11
