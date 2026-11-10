@@ -5,7 +5,7 @@
 
 int main()
 {
-    printf("hello world");
+    grafo* grafo = ler_grafo("grafo_0");
 
     return 0;
 }
