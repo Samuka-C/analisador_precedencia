@@ -22,8 +22,10 @@ Para cada grafo em **grafos_teste/** que representa uma sequencia de tarefas, fa
 
 3. garantir que ambos estão no PATH (variavel de sistema) para que possam ser usados do terminal
 
-4. abrir terminal dentro da pasta do projeto
+4. Editar o Makefile para o compilador de C instalado
 
-5. escrever **make** no terminal
+5. abrir terminal dentro da pasta do projeto
 
-6. escrever **.\bin\main.exe** no terminal
+6. escrever **make** no terminal para compilar o código
+
+7. escrever **.\bin\main.exe** no terminal para executar o código

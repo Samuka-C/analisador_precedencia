@@ -1,11 +1,11 @@
 EXE := .exe
 
-CC := gcc
+CC := gcc # trocar pelo comando do compilador C
 
 BIN_DIR := bin
 SRC_DIR := src
 
-INCLUDE_DIRS := C:/msys64/ucrt64/include include
+INCLUDE_DIRS := include C:/msys64/ucrt64/include # trocar pela pasta include do compilador C
 INCLUDE := $(addprefix -I,$(INCLUDE_DIRS))
 
 C_SOURCES := $(SRC_DIR)/grafos.c $(SRC_DIR)/leitor_grafo.c $(SRC_DIR)/main.c
