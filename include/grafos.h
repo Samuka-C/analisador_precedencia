@@ -5,9 +5,9 @@
 
 typedef struct grafo_strct
 {
-    int numero_vertices;
     int** matriz;
     char** nomes;
+    int numero_vertices;
 } grafo;
 
 /**
