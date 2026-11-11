@@ -129,10 +129,10 @@ void printar_grafo(grafo* grafo)
     {
         for (int j = 0; j < grafo->numero_vertices; j++)
         {
-            if (grafo->matriz[i][j])
-            {
-                printf("%s -> %s\n", grafo->nomes[i], grafo->nomes[j]);
-            }
+            if (!grafo->matriz[i][j])
+                continue;
+            
+            printf("%s -> %s\n", grafo->nomes[i], grafo->nomes[j]);
         }
     }
 }

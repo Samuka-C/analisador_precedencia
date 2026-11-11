@@ -49,11 +49,11 @@ int detectar_ciclo(grafo* grafo)
 
     for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
     {
-        if (estado[vertice] == nao_visitado)
-        {
-            if (busca_profundidade_encontrar_ciclo(grafo, estado, vertice))
-                return 1;
-        }
+        if (estado[vertice] != nao_visitado)
+            continue;
+
+        if (busca_profundidade_encontrar_ciclo(grafo, estado, vertice))
+            return 1;
     }
 
     return 0;

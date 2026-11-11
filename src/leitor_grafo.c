@@ -27,17 +27,17 @@ char** ler_arquivo(const char* caminho_arquivo, int* numero_de_linhas)
 
     while ((proximo_charactere = fgetc(file_ptr)) != EOF)
     {
-        if (proximo_charactere == '\n')
+        if (proximo_charactere != '\n')
         {
-            numero_linhas++;
-            tamanho_maior_linha = tamanho_maior_linha < tamanho_linha 
-                ? tamanho_linha 
-                : tamanho_maior_linha;
-            tamanho_linha = 0;
+            tamanho_linha++;
             continue;
         }
 
-        tamanho_linha++;
+        numero_linhas++;
+        tamanho_maior_linha = tamanho_maior_linha < tamanho_linha 
+            ? tamanho_linha 
+            : tamanho_maior_linha;
+        tamanho_linha = 0;
     }
 
     tamanho_maior_linha = tamanho_maior_linha < tamanho_linha 
@@ -57,15 +57,15 @@ char** ler_arquivo(const char* caminho_arquivo, int* numero_de_linhas)
     {
         linhas[i] = (char*)calloc(tamanho_maior_linha + 1, sizeof(char));
 
-        if (linhas[i] == NULL)
-        {
-            for (int j = 0; j < i; j++)
-                free(linhas[j]);
+        if (linhas[i] != NULL)
+            continue;
 
-            free(linhas);
-            fclose(file_ptr);
-            return NULL;
-        }
+        for (int j = 0; j < i; j++)
+            free(linhas[j]);
+
+        free(linhas);
+        fclose(file_ptr);
+        return NULL;
     }
 
     // fazer rewind para ler novamente o arquivo, dessa vez escrevendo no espaço alocado
