@@ -8,8 +8,8 @@ SRC_DIR := src
 INCLUDE_DIRS := include C:/msys64/ucrt64/include # trocar pela pasta include do compilador C
 INCLUDE := $(addprefix -I,$(INCLUDE_DIRS))
 
-C_SOURCES := $(SRC_DIR)/grafos.c $(SRC_DIR)/leitor_grafo.c $(SRC_DIR)/main.c
-C_OBJECTS := $(BIN_DIR)/grafos.o $(BIN_DIR)/leitor_grafo.o $(BIN_DIR)/main.o
+C_SOURCES := $(SRC_DIR)/main.c $(SRC_DIR)/grafos.c $(SRC_DIR)/algoritimos_grafos.c $(SRC_DIR)/leitor_grafo.c
+C_OBJECTS := $(BIN_DIR)/main.o $(BIN_DIR)/grafos.o $(BIN_DIR)/algoritimos_grafos.o $(BIN_DIR)/leitor_grafo.o
 
 TARGET := $(BIN_DIR)/main$(EXE)
 
@@ -25,6 +25,10 @@ $(BIN_DIR)/main.o: $(SRC_DIR)/main.c
 	$(CC) $(INCLUDE) -c $< -o $@
 
 $(BIN_DIR)/grafos.o: $(SRC_DIR)/grafos.c
+	@mkdir -p $(dir $@)
+	$(CC) $(INCLUDE) -c $< -o $@
+
+$(BIN_DIR)/algoritimos_grafos.o: $(SRC_DIR)/algoritimos_grafos.c
 	@mkdir -p $(dir $@)
 	$(CC) $(INCLUDE) -c $< -o $@
 
