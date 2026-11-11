@@ -3,7 +3,7 @@
 
 typedef struct pilha_elemento_struct
 {
-    pilha_elemento* proximo_elemento;
+    struct pilha_elemento_struct* proximo_elemento;
     int valor;
 } pilha_elemento;
 
