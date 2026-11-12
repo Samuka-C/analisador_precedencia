@@ -28,6 +28,8 @@ void destruir_pilha(pilha* pilha);
 /**
  * @brief remove o item do topo da pilha
  * 
+ * @attention se a pilha estiver vazia, retorna 0 (nem sempre que retornar 0, a pilha vai estar vazia)
+ * 
  * @return o valor do item removido
  */
 int pilha_pop(pilha* pilha);
@@ -60,6 +62,8 @@ void destruir_fila(fila* fila);
 
 /**
  * @brief remove o primeiro item da fila
+ * 
+ * @attention se a fila estiver vazia, retorna 0 (nem sempre que retornar 0, a fila vai estar vazia)
  * 
  * @return o valor do item removido
  */

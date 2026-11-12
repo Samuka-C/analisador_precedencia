@@ -29,6 +29,9 @@ void destruir_pilha(pilha* pilha)
 
 int pilha_pop(pilha* pilha)
 {
+    if (pilha->numero_items == 0)
+        return 0;
+
     item* topo = pilha->item_topo;
     int valor_topo = topo->valor;
 
@@ -83,6 +86,9 @@ void destruir_fila(fila* fila)
 
 int fila_get(fila* fila)
 {
+    if (fila->numero_items == 0)
+        return 0;
+
     item* primeiro_item = fila->primeiro_item;
     int valor = primeiro_item->valor;
 
@@ -115,6 +121,7 @@ int fila_push_frente(fila* fila, int valor)
     else
     {
         ultimo_item->proximo_item = novo_item;
+        fila->ultimo_item = novo_item;
     }
 
     fila->numero_items++;
@@ -134,7 +141,7 @@ fila* fila_fundir(fila* fila_inicio, fila* fila_final)
     destruir_fila(fila_inicio);
     
     while (fila_final->numero_items > 0)
-        fila_push_frente(nova_fila, fila_get(fila_final)); 
+        fila_push_frente(nova_fila, fila_get(fila_final));
     
     destruir_fila(fila_final);
 
