@@ -43,7 +43,7 @@ typedef struct fila_struct
 {
     item* primeiro_item;
     item* ultimo_item;
-    int numero_items
+    int numero_items;
 } fila;
 
 /**
