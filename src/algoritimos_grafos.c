@@ -63,121 +63,75 @@ int detectar_ciclo(grafo* grafo)
 }
 
 /**
- * @brief faz busca em largura a partir de um vertice
+ * @brief obtem um vertice de grau zero não visitado. marca ele como concluido e diminui o grau dos seus filhos
  * 
- * @param grafo grafo para fazer a busca
- * @param estado vetor de estados de cada vertice
- * @param vertice vertice para fazer a busca
- * @param pilha_vertices pilha de vertices para inserir os proximos vertices a fazer busca em largura
+ * @param grafo grafo a qual os vertices pertecem
+ * @param estado vetor de estado dos vertices
+ * @param grau_entrada vetor de grau de entrada dos vertices
+ * @param vertice_saida ponteiro para escrever o valor do vertice de saida
+ * 
+ * @return 1 se pode obter um vertice, 0 caso contrário
  */
-void busca_largura_obter_ordem(grafo* grafo, enum estado_vertice* estado, int vertice, pilha* pilha_vertices)
+int obter_vertice_grau_zero(grafo* grafo, enum estado_vertice* estado, int* grau_entrada, int* vertice_saida)
 {
-    estado[vertice] = visitado;
-
-    for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
-    {
-        if (!grafo->matriz[vertice][vertice_filho])
-            continue;
-
-        if (estado[vertice_filho] != nao_visitado)
-            continue;
-
-        int pai_nao_visitado = 0;
-
-        for (int vertice_pai = 0; vertice_pai < grafo->numero_vertices; vertice_pai++)
-        {
-            if (!grafo->matriz[vertice_pai][vertice_filho])
-                continue;
-
-            if (estado[vertice_pai] == nao_visitado)
-            {
-                pai_nao_visitado = 1;
-                break;
-            }
-        }
-
-        if (pai_nao_visitado)
-            continue;
-
-        if (!pilha_push(pilha_vertices, vertice_filho))
-        {
-            log_error("falhou em adicionar item na pilha");
-            return;
-        }
-    }
-}
-
-void obter_ordenacao(grafo* grafo, int* array_vertices)
-{
-    // criar vetor de estado para os vertices e marcar todos como não visitados
-    enum estado_vertice estado[grafo->numero_vertices];
-
-    for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
-        estado[vertice] = nao_visitado;
-
-    // criar fila de vertices ordenados que vai ser usado para povoar o array
-    fila* vertices_ordenados = criar_fila();
-    if (vertices_ordenados == NULL)
-    {
-        log_error("falhou em criar fila!");
-        return;
-    }
+    int encontrou_vertice = 0;
 
     for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
     {
         if (estado[vertice] != nao_visitado)
             continue;
 
-        // para cada vertice não visitado, fazer busca em largura
-
-        fila* vertices_ordenados_parcial = criar_fila();
-        if (vertices_ordenados_parcial == NULL)
-        {
-            log_error("falhou em criar fila!");
-            return;
-        }
+        if (grau_entrada[vertice] != 0)
+            continue;
         
-        pilha* pilha_vertices_para_fazer_busca = criar_pilha();
-        if (pilha_vertices_para_fazer_busca == NULL)
+        for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
         {
-            log_error("falhou em criar pilha!");
-            return;
+            if (!grafo->matriz[vertice][vertice_filho])
+                continue;
+            
+            grau_entrada[vertice_filho]--;
         }
 
-        if (!pilha_push(pilha_vertices_para_fazer_busca, vertice))
-        {
-            log_error("falhou em adicionar item na pilha");
-            return;
-        }
+        estado[vertice] = concluido;
 
-        while (pilha_vertices_para_fazer_busca->numero_items > 0)
-        {
-            int vertice_para_buscar = pilha_pop(pilha_vertices_para_fazer_busca);
-            if (!fila_push_frente(vertices_ordenados_parcial, vertice_para_buscar))
-            {
-                log_error("falha em adicionar item na fila");
-                return;
-            }
-            busca_largura_obter_ordem(grafo, estado, vertice_para_buscar, pilha_vertices_para_fazer_busca);
-        }
+        *vertice_saida = vertice;
 
-        destruir_pilha(pilha_vertices_para_fazer_busca);
+        return 1;
+    }
 
-        // a busca em largura vai preencher a fila parcial até as folhas ou até os vertices explorados
-        // em uma busca em largura anterior, portanto a fila parcial necessariament vem antes das filas obtidas anteriormente
-        vertices_ordenados = fila_fundir(vertices_ordenados_parcial, vertices_ordenados);
-        if (vertices_ordenados == NULL)
+    return 0;
+}
+
+void obter_ordenacao(grafo* grafo, int* array_vertices)
+{
+    // criar vetor de estado para os vertices e marcar todos como não visitados
+    enum estado_vertice estado[grafo->numero_vertices];
+    int grau_entrada[grafo->numero_vertices];
+
+    for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
+    {
+        estado[vertice] = nao_visitado;
+        grau_entrada[vertice] = 0;
+    }
+
+    // obter o grau de entrada de todos os vertices
+    for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
+    {
+        for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
         {
-            log_error("falhou em criar fila!");
-            return;
+            if (!grafo->matriz[vertice][vertice_filho])
+                continue;
+
+            grau_entrada[vertice_filho]++;
         }
     }
 
-    // todos os vertices foram explorados e portanto vertices_ordenados tem uma ordem correta dos vertices
+    int index_array = 0;
+    int vertice;
 
-    for (int indice = 0; indice < grafo->numero_vertices; indice++)
+    while (obter_vertice_grau_zero(grafo, estado, grau_entrada, &vertice))
     {
-        int vertice = fila_get(vertices_ordenados);
-        array_vertices[indice] = vertice;
+        array_vertices[index_array] = vertice;
+        index_array++;
     }
 }
