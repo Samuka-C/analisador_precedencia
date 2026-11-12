@@ -3,7 +3,7 @@
 
 #define MAX_VERTICE_NOME_TAMANHO 50
 
-typedef struct grafo_strct
+typedef struct grafo_struct
 {
     int** matriz;
     char** nomes;
