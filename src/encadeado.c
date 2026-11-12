@@ -104,11 +104,22 @@ int fila_push_frente(fila* fila, int valor)
     novo_item->valor = valor;
     novo_item->proximo_item = NULL;
 
-    fila->ultimo_item->proximo_item = novo_item;
+    item* ultimo_item = fila->ultimo_item;
+    if (ultimo_item == NULL)
+    {
+        // fila vazia
+
+        fila->ultimo_item = novo_item;
+        fila->primeiro_item = novo_item;
+    }
+    else
+    {
+        ultimo_item->proximo_item = novo_item;
+    }
+
     fila->numero_items++;
 
-    if (fila->numero_items == 1)
-        fila->primeiro_item = novo_item;
+    return 1;
 }
 
 fila* fila_fundir(fila* fila_inicio, fila* fila_final)
