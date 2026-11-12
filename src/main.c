@@ -8,14 +8,32 @@ int main()
 {
     grafo* grafo = ler_grafo("grafo_0");
 
-    printar_grafo(grafo);
+    // printf("grafo:\n");
+    // printar_grafo(grafo);
+    // printf("---\n");
 
     int ciclo = detectar_ciclo(grafo);
 
     if (ciclo)
-        printf("existe ciclo");
+        printf("CICLO: existe\n");
     else
-        printf("nao existe ciclo");
+        printf("CICLO: nao existe\n");
+
+    int vertices_ordenados[grafo->numero_vertices];
+    obter_ordenacao(grafo, vertices_ordenados);
+
+    printf("ORDEM: ");
+
+    for (int i = 0; i < grafo->numero_vertices; i++)
+    {
+        if (i != 0)
+            printf(", ");
+
+        int vertice = vertices_ordenados[i];
+        printf("%s", grafo->nomes[vertice]);
+    }
+
+    printf("\n");
 
     return 0;
 }
