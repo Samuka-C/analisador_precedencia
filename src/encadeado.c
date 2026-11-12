@@ -8,8 +8,8 @@ pilha* criar_pilha()
     if (nova_pilha == NULL)
         return NULL;
 
-    nova_pilha->numero_elementos = 0;
-    nova_pilha->elemento_topo = NULL;
+    nova_pilha->numero_items = 0;
+    nova_pilha->item_topo = NULL;
 
     return nova_pilha;
 }
@@ -19,7 +19,7 @@ void destruir_pilha(pilha* pilha)
     if (pilha == NULL)
         return;
 
-    while (pilha->numero_elementos > 0)
+    while (pilha->numero_items > 0)
     {
         pop(pilha);
     }
@@ -29,12 +29,12 @@ void destruir_pilha(pilha* pilha)
 
 int pilha_pop(pilha* pilha)
 {
-    pilha_elemento* topo = pilha->elemento_topo;
+    item* topo = pilha->item_topo;
     int valor_topo = topo->valor;
 
-    pilha_elemento* elemento_depois_do_topo = topo->proximo_elemento; // pode ser NULL
-    pilha->elemento_topo = elemento_depois_do_topo;
-    pilha->numero_elementos--;
+    item* item_depois_do_topo = topo->proximo_item; // pode ser NULL
+    pilha->item_topo = item_depois_do_topo;
+    pilha->numero_items--;
 
     free(topo);
 
@@ -43,16 +43,16 @@ int pilha_pop(pilha* pilha)
 
 int pilha_push(pilha* pilha, int valor)
 {
-    pilha_elemento* novo_elemento = (pilha_elemento*)malloc(sizeof(pilha_elemento));
-    if (novo_elemento == NULL)
+    item* novo_item = (item*)malloc(sizeof(item));
+    if (novo_item == NULL)
         return 0;
 
-    novo_elemento->valor = valor;
+    novo_item->valor = valor;
 
-    pilha_elemento* ex_topo = pilha->elemento_topo;
-    novo_elemento->proximo_elemento = ex_topo;
-    pilha->elemento_topo = novo_elemento;
-    pilha->numero_elementos++;
+    item* ex_topo = pilha->item_topo;
+    novo_item->proximo_item = ex_topo;
+    pilha->item_topo = novo_item;
+    pilha->numero_items++;
 
     return 1;
 }

@@ -1,16 +1,16 @@
 #ifndef ENCADEADO
 #define ENCADEADO
 
-typedef struct pilha_elemento_struct
+typedef struct item_struct
 {
-    struct pilha_elemento_struct* proximo_elemento;
+    struct item_struct* proximo_item;
     int valor;
-} pilha_elemento;
+} item;
 
 typedef struct pilha_struct
 {
-    pilha_elemento* elemento_topo;
-    int numero_elementos;
+    item* item_topo;
+    int numero_items;
 } pilha;
 
 /**
@@ -35,7 +35,7 @@ int pilha_pop(pilha* pilha);
 /**
  * @brief coloca um item no topo da pilha
  * 
- * @return 1 se o elemento pode ser colocado, 0 caso tenha falhado
+ * @return 1 se o item pode ser colocado, 0 caso tenha falhado
  */
 int pilha_push(pilha* pilha, int valor);
 
