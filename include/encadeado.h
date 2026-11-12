@@ -1,5 +1,5 @@
-#ifndef PILHA
-#define PILHA
+#ifndef ENCADEADO
+#define ENCADEADO
 
 typedef struct pilha_elemento_struct
 {
