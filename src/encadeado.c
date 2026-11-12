@@ -21,7 +21,7 @@ void destruir_pilha(pilha* pilha)
 
     while (pilha->numero_items > 0)
     {
-        pop(pilha);
+        pilha_pop(pilha);
     }
 
     free(pilha);
