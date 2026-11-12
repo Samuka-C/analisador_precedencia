@@ -30,13 +30,13 @@ void destruir_pilha(pilha* pilha);
  * 
  * @return o valor do item removido
  */
-int pop(pilha* pilha);
+int pilha_pop(pilha* pilha);
 
 /**
  * @brief coloca um item no topo da pilha
  * 
  * @return 1 se o elemento pode ser colocado, 0 caso tenha falhado
  */
-int push(pilha* pilha, int valor);
+int pilha_push(pilha* pilha, int valor);
 
 #endif

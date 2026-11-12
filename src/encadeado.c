@@ -27,7 +27,7 @@ void destruir_pilha(pilha* pilha)
     free(pilha);
 }
 
-int pop(pilha* pilha)
+int pilha_pop(pilha* pilha)
 {
     pilha_elemento* topo = pilha->elemento_topo;
     int valor_topo = topo->valor;
@@ -41,7 +41,7 @@ int pop(pilha* pilha)
     return valor_topo;
 }
 
-int push(pilha* pilha, int valor)
+int pilha_push(pilha* pilha, int valor)
 {
     pilha_elemento* novo_elemento = (pilha_elemento*)malloc(sizeof(pilha_elemento));
     if (novo_elemento == NULL)
