@@ -1,12 +1,16 @@
 #include <encadeado.h>
 
+#include <logger.h>
 #include <stdlib.h>
 
 pilha* criar_pilha()
 {
     pilha* nova_pilha = (pilha*)malloc(sizeof(pilha));
     if (nova_pilha == NULL)
+    {
+        log_error("falha em alocar memoria para a pilha!");
         return NULL;
+    }
 
     nova_pilha->numero_items = 0;
     nova_pilha->item_topo = NULL;
@@ -17,7 +21,10 @@ pilha* criar_pilha()
 void destruir_pilha(pilha* pilha)
 {
     if (pilha == NULL)
+    {
+        log_warning("tentou destruir uma pilha com ponteiro nulo!");
         return;
+    }
 
     while (pilha->numero_items > 0)
     {
@@ -30,7 +37,10 @@ void destruir_pilha(pilha* pilha)
 int pilha_pop(pilha* pilha)
 {
     if (pilha->numero_items == 0)
+    {
+        log_warning("tentou fazer pop em uma pilha vazia!");
         return 0;
+    }
 
     item* topo = pilha->item_topo;
     int valor_topo = topo->valor;
@@ -48,7 +58,10 @@ int pilha_push(pilha* pilha, int valor)
 {
     item* novo_item = (item*)malloc(sizeof(item));
     if (novo_item == NULL)
+    {
+        log_error("falha em alocar memoria para um novo item para a pilha!");
         return 0;
+    }
 
     novo_item->valor = valor;
 
@@ -64,7 +77,10 @@ fila* criar_fila()
 {
     fila* nova_fila = (fila*)malloc(sizeof(fila));
     if (nova_fila == NULL)
+    {
+        log_error("falha em alocar memoria para a fila!");
         return NULL;
+    }
 
     nova_fila->numero_items = 0;
     nova_fila->primeiro_item = NULL;
@@ -74,7 +90,10 @@ fila* criar_fila()
 void destruir_fila(fila* fila)
 {
     if (fila == NULL)
+    {
+        log_warning("tentou destruir uma pilha com ponteiro nulo!");
         return;
+    }
 
     while (fila->numero_items > 0)
     {
@@ -87,7 +106,10 @@ void destruir_fila(fila* fila)
 int fila_get(fila* fila)
 {
     if (fila->numero_items == 0)
+    {
+        log_warning("tentou obter o primeiro item de uma fila vazia!");
         return 0;
+    }
 
     item* primeiro_item = fila->primeiro_item;
     int valor = primeiro_item->valor;
@@ -105,7 +127,10 @@ int fila_push_frente(fila* fila, int valor)
 {
     item* novo_item = (item*)malloc(sizeof(item));
     if (novo_item == NULL)
+    {
+        log_error("falha em alocar memoria para um novo item para a fila!");
         return 0;
+    }
 
     novo_item->valor = valor;
     novo_item->proximo_item = NULL;
@@ -133,7 +158,10 @@ fila* fila_fundir(fila* fila_inicio, fila* fila_final)
 {
     fila* nova_fila = criar_fila();
     if (nova_fila == NULL)
+    {
+        log_error("falha em alocar memoria para a fila!");
         return NULL;
+    }
 
     while (fila_inicio->numero_items > 0)
         fila_push_frente(nova_fila, fila_get(fila_inicio));
