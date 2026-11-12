@@ -8,7 +8,6 @@ enum estado_vertice {
 
 /**
  * @brief faz busca em profundidade a partir de um vertice
- * atribuindo valores ao vetor pre indicando a ordem de visita de cada vertice
  * 
  * @param grafo grafo para fazer a busca
  * @param estado vetor de estados de cada vertice
