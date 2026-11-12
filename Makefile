@@ -8,8 +8,8 @@ SRC_DIR := src
 INCLUDE_DIRS := include C:/msys64/ucrt64/include # trocar pela pasta include do compilador C
 INCLUDE := $(addprefix -I,$(INCLUDE_DIRS))
 
-C_SOURCES := $(SRC_DIR)/main.c $(SRC_DIR)/grafos.c $(SRC_DIR)/algoritimos_grafos.c $(SRC_DIR)/leitor_grafo.c $(SRC_DIR)/encadeado.c
-C_OBJECTS := $(BIN_DIR)/main.o $(BIN_DIR)/grafos.o $(BIN_DIR)/algoritimos_grafos.o $(BIN_DIR)/leitor_grafo.o $(BIN_DIR)/encadeado.o
+C_SOURCES := $(SRC_DIR)/main.c $(SRC_DIR)/grafos.c $(SRC_DIR)/algoritimos_grafos.c $(SRC_DIR)/leitor_grafo.c $(SRC_DIR)/encadeado.c $(SRC_DIR)/logger.c
+C_OBJECTS := $(BIN_DIR)/main.o $(BIN_DIR)/grafos.o $(BIN_DIR)/algoritimos_grafos.o $(BIN_DIR)/leitor_grafo.o $(BIN_DIR)/encadeado.o $(BIN_DIR)/logger.o
 
 TARGET := $(BIN_DIR)/main$(EXE)
 
@@ -37,6 +37,10 @@ $(BIN_DIR)/leitor_grafo.o: $(SRC_DIR)/leitor_grafo.c
 	$(CC) $(INCLUDE) -c $< -o $@
 
 $(BIN_DIR)/encadeado.o: $(SRC_DIR)/encadeado.c
+	@mkdir -p $(dir $@)
+	$(CC) $(INCLUDE) -c $< -o $@
+
+$(BIN_DIR)/logger.o: $(SRC_DIR)/logger.c
 	@mkdir -p $(dir $@)
 	$(CC) $(INCLUDE) -c $< -o $@
 
