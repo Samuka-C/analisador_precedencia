@@ -20,7 +20,7 @@ int main()
         printf("CICLO: nao existe\n");
 
     int vertices_ordenados[grafo->numero_vertices];
-    obter_ordenacao(grafo, vertices_ordenados);
+    obter_ordem_topologica(grafo, vertices_ordenados);
 
     printf("ORDEM: ");
 
