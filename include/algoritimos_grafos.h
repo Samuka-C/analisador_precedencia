@@ -15,6 +15,16 @@ int detectar_ciclo(grafo* grafo);
  * @param grafo o grafo a ser analisado
  * @param array_vertices ponteiro de um array de inteiros com tamanho igual ou maior ao numero de vertices do grafo
  */
-void obter_ordenacao(grafo* grafo, int* array_vertices);
+void obter_ordem_topologica(grafo* grafo, int* array_vertices);
+
+/**
+ * @brief similar a obter a ordem topologica no entanto os vertices são colocados em uma matriz onde cada linha, os vertices não são requisitos um dos outros
+ * 
+ * @param grafo o grafo a ser analisado
+ * @param numero_colunas numero de colunas da matriz_saida
+ * @param matriz_saida ponteiro para a matriz de saida onde seram escritos os vertices.
+ * o tamanho deve ser grafo->numero_vertices x numero_colunas
+ */
+void obter_matriz_topologica(grafo* grafo, int numero_colunas, int** matriz_saida);
 
 #endif

@@ -63,47 +63,56 @@ int detectar_ciclo(grafo* grafo)
 }
 
 /**
- * @brief obtem um vertice de grau zero não visitado. marca ele como concluido e diminui o grau dos seus filhos
+ * @brief procura por vertices com grau zero não concluidos, e os escreve em um buffer.
  * 
- * @param grafo grafo a qual os vertices pertecem
- * @param estado vetor de estado dos vertices
- * @param grau_entrada vetor de grau de entrada dos vertices
- * @param vertice_saida ponteiro para escrever o valor do vertice de saida
- * 
- * @return 1 se pode obter um vertice, 0 caso contrário
+ * @return 1 caso foi possivel encontrar vertices com grau zero não concluidos, 0 caso contrário.
  */
-int obter_vertice_grau_zero(grafo* grafo, enum estado_vertice* estado, int* grau_entrada, int* vertice_saida)
+int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice* estado, int* grau_entrada, int* buffer_vertices, int* tamanho_buffer)
 {
     int encontrou_vertice = 0;
 
     for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
     {
-        if (estado[vertice] != nao_visitado)
+        if (estado[vertice] == concluido)
             continue;
 
         if (grau_entrada[vertice] != 0)
             continue;
-        
-        for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
-        {
-            if (!grafo->matriz[vertice][vertice_filho])
-                continue;
-            
-            grau_entrada[vertice_filho]--;
-        }
 
-        estado[vertice] = concluido;
+        buffer_vertices[*tamanho_buffer] = vertice;
+        (*tamanho_buffer)++;
 
-        *vertice_saida = vertice;
-
-        return 1;
+        encontrou_vertice = 1;
     }
 
-    return 0;
+    return encontrou_vertice;
 }
 
-void obter_ordenacao(grafo* grafo, int* array_vertices)
+void obter_ordem_topologica(grafo* grafo, int* array_vertices)
 {
+    int matriz_intermediaria[grafo->numero_vertices][1];
+
+    obter_matriz_topologica(grafo, 1, matriz_intermediaria);
+
+    for (int index = 0; index < grafo->numero_vertices; index++)
+        array_vertices[index] = matriz_intermediaria[index][0];
+}
+
+void obter_matriz_topologica(grafo* grafo, int numero_colunas, int** matriz_saida)
+{
+    // verificar se os inputs estão okay
+    if (numero_colunas < 1)
+    {
+        log_warning("impossivel aplicar a função com numero de colunas: %d menor do que 1", numero_colunas);
+        return;
+    }
+
+    if (matriz_saida == NULL)
+    {
+        log_error("ponteiro matriz_saida é nulo!");
+        return;
+    }
+
     // criar vetor de estado para os vertices e marcar todos como não visitados
     enum estado_vertice estado[grafo->numero_vertices];
     int grau_entrada[grafo->numero_vertices];
@@ -126,12 +135,47 @@ void obter_ordenacao(grafo* grafo, int* array_vertices)
         }
     }
 
-    int index_array = 0;
-    int vertice;
+    int index_linha = 0;
+    int index_coluna = 0;
 
-    while (obter_vertice_grau_zero(grafo, estado, grau_entrada, &vertice))
+    int buffer_vertices[grafo->numero_vertices];
+    int tamanho_buffer = 0;
+
+    while (procurar_vertices_grau_zero(grafo, estado, grau_entrada, buffer_vertices, &tamanho_buffer))
     {
-        array_vertices[index_array] = vertice;
-        index_array++;
+        while (tamanho_buffer > 0)
+        {
+            // obter vertice para colocar na matriz
+            int vertice = buffer_vertices[tamanho_buffer - 1];
+            matriz_saida[index_linha][index_coluna] = vertice;
+
+            // reduzir grau de entrada dos vertices filhos
+            for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
+            {
+                if (!grafo->matriz[vertice][vertice_filho])
+                    continue;
+
+                grau_entrada[vertice_filho]--;
+            }
+
+            // vertice finalizado
+            estado[vertice] = concluido;
+            tamanho_buffer--;
+
+            // mover local de escrita na matriz
+            index_coluna++;
+            if (index_coluna >= numero_colunas)
+            {
+                index_coluna = 0;
+                index_linha++;
+            }
+        }
+
+        // garantir que os proximos vertices do buffer não sejam escritos em uma linha com outros vertices
+        if (index_coluna > 0)
+        {
+            index_coluna = 0;
+            index_linha++;
+        }
     }
 }
