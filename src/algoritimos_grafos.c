@@ -90,6 +90,12 @@ int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice* estado, int* 
 
 void obter_ordem_topologica(grafo* grafo, int* array_vertices)
 {
+    if (array_vertices == NULL)
+    {
+        log_error("ponteiro array_vertices é nulo!");
+        return;
+    }
+
     int matriz_intermediaria[grafo->numero_vertices][1];
 
     obter_matriz_topologica(grafo, 1, matriz_intermediaria);
