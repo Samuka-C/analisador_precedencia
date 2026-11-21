@@ -96,12 +96,23 @@ void obter_ordem_topologica(grafo* grafo, int* array_vertices)
         return;
     }
 
-    int matriz_intermediaria[grafo->numero_vertices][1];
+    int** matriz_intermediaria = (int**)calloc(grafo->numero_vertices, sizeof(int*));
+    for (int index = 0; index < grafo->numero_vertices; index++)
+    {
+        matriz_intermediaria[index] = (int*)malloc(sizeof(int)); 
+    }
 
     obter_matriz_topologica(grafo, 1, matriz_intermediaria);
 
     for (int index = 0; index < grafo->numero_vertices; index++)
         array_vertices[index] = matriz_intermediaria[index][0];
+
+    for (int index = 0; index < grafo->numero_vertices; index++)
+    {
+        free(matriz_intermediaria[index]);
+    }
+
+    free(matriz_intermediaria);
 }
 
 void obter_matriz_topologica(grafo* grafo, int numero_colunas, int** matriz_saida)
