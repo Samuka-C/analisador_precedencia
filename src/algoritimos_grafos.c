@@ -144,6 +144,18 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
     int index_linha = 0;
     int index_coluna = 0;
 
+    // setar toda a matriz como -1
+    for (; index_linha < grafo->numero_vertices; index_linha++)
+    {
+        for (; index_coluna < numero_colunas; index_coluna++)
+        {
+            matriz_saida[index_linha][index_coluna] = -1;
+        }
+    }
+
+    index_linha = 0;
+    index_coluna = 0;
+
     int buffer_vertices[grafo->numero_vertices];
     int tamanho_buffer = 0;
 

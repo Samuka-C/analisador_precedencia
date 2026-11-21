@@ -24,6 +24,8 @@ void obter_ordem_topologica(grafo* grafo, int array_vertices[]);
  * @param numero_colunas numero de colunas da matriz_saida
  * @param matriz_saida ponteiro para a matriz de saida onde seram escritos os vertices.
  * o tamanho deve ser grafo->numero_vertices x numero_colunas
+ * 
+ * @attention todos os pontos vazios na matriz_saida teram o valor -1
  */
 void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[][numero_colunas]);
 
