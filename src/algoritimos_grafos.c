@@ -88,7 +88,7 @@ int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice* estado, int* 
     return encontrou_vertice;
 }
 
-void obter_ordem_topologica(grafo* grafo, int* array_vertices)
+void obter_ordem_topologica(grafo* grafo, int array_vertices[])
 {
     if (array_vertices == NULL)
     {
@@ -96,26 +96,15 @@ void obter_ordem_topologica(grafo* grafo, int* array_vertices)
         return;
     }
 
-    int** matriz_intermediaria = (int**)calloc(grafo->numero_vertices, sizeof(int*));
-    for (int index = 0; index < grafo->numero_vertices; index++)
-    {
-        matriz_intermediaria[index] = (int*)malloc(sizeof(int)); 
-    }
+    int matriz_intermediaria[grafo->numero_vertices][1];
 
     obter_matriz_topologica(grafo, 1, matriz_intermediaria);
 
     for (int index = 0; index < grafo->numero_vertices; index++)
         array_vertices[index] = matriz_intermediaria[index][0];
-
-    for (int index = 0; index < grafo->numero_vertices; index++)
-    {
-        free(matriz_intermediaria[index]);
-    }
-
-    free(matriz_intermediaria);
 }
 
-void obter_matriz_topologica(grafo* grafo, int numero_colunas, int** matriz_saida)
+void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[][numero_colunas])
 {
     // verificar se os inputs estão okay
     if (numero_colunas < 1)
