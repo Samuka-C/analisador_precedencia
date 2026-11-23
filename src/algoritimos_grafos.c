@@ -221,6 +221,7 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
     {
         estado[vertice] = nao_visitado;
         grau_entrada[vertice] = 0;
+        grau_saida[vertice] = 0;
     }
 
     // obter o grau de entrada e saida de todos os vertices
