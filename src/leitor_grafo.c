@@ -2,6 +2,7 @@
 
 #define BUFFER_TAMANHO 256
 
+#include <logger.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -101,6 +102,12 @@ grafo* ler_grafo(const char* grafo_txt_nome)
     int numero_de_linhas = 0;
     char** linhas = ler_arquivo(caminho_arquivo, &numero_de_linhas);
 
+    if (linhas == NULL)
+    {
+        log_error("nao foi possivel ler o arquivo %s", caminho_arquivo);
+        return NULL;
+    }
+
     int numero_vertices = 0;
     grafo* novo_grafo = NULL;
 
@@ -127,6 +134,11 @@ grafo* ler_grafo(const char* grafo_txt_nome)
 
         conectar_vertice(novo_grafo, vertice_1, vertice_2);
     }
+
+    for (int i = 0; i < numero_de_linhas; i++)
+        free(linhas[i]);
+
+    free(linhas);
 
     return novo_grafo;
 }

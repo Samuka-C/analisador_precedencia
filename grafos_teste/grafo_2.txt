@@ -1,0 +1,26 @@
+12
+calculo 1
+calculo 2
+algebra linear
+programacao 1
+programacao 2
+estrutura de dados
+matematica discreta
+algoritmos em grafos
+fisica 1
+circuitos eletricos
+sistemas digitais
+arquitetura de computadores
+0->1
+0->8
+1->9
+8->9
+9->10
+3->4
+4->5
+5->7
+6->7
+3->10
+10->11
+5->11
+2->7
