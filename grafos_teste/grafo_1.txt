@@ -1,0 +1,11 @@
+5
+levantar requisitos
+escrever codigo
+testar
+corrigir bugs
+entregar
+0->1
+1->2
+2->3
+3->1
+2->4
