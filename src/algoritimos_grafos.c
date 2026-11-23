@@ -88,6 +88,35 @@ int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice estado[], int 
     return encontrou_vertice;
 }
 
+/**
+ * @brief ordena o buffer de vertices baseado no grau de saida do menor para o maior
+ */
+void ordenar_buffer(int buffer_vertices[], int tamanho_buffer, int grau_saida[], int maximo_grau_entrada)
+{
+    // ordenação por contagem O(n)
+
+    int intermediario[maximo_grau_entrada + 1];
+    int saida_temporaria[tamanho_buffer];
+
+    for (int i = 0; i <= maximo_grau_entrada; i++)
+        intermediario[i] = 0;
+
+    for (int j = 0; j < tamanho_buffer; j++)
+        intermediario[grau_saida[buffer_vertices[j]]]++;
+
+    for (int i = 1; i <= maximo_grau_entrada; i++)
+        intermediario[i] += intermediario[i-1];
+
+    for (int j = tamanho_buffer - 1; j >= 0; j--)
+    {
+        saida_temporaria[intermediario[grau_saida[buffer_vertices[j]]] - 1] = buffer_vertices[j];
+        intermediario[grau_saida[buffer_vertices[j]]]--;
+    }
+
+    for (int j = 0; j < tamanho_buffer; j++)
+        buffer_vertices[j] = saida_temporaria[j];
+}
+
 void obter_ordem_topologica(grafo* grafo, int array_vertices[])
 {
     if (array_vertices == NULL)
@@ -122,6 +151,7 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
     // criar vetor de estado para os vertices e marcar todos como não visitados
     enum estado_vertice estado[grafo->numero_vertices];
     int grau_entrada[grafo->numero_vertices];
+    int grau_saida[grafo->numero_vertices];
 
     for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
     {
@@ -129,7 +159,7 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
         grau_entrada[vertice] = 0;
     }
 
-    // obter o grau de entrada de todos os vertices
+    // obter o grau de entrada e saida de todos os vertices
     for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
     {
         for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
@@ -138,6 +168,7 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
                 continue;
 
             grau_entrada[vertice_filho]++;
+            grau_saida[vertice]++;
         }
     }
 
@@ -161,6 +192,9 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
 
     while (procurar_vertices_grau_zero(grafo, estado, grau_entrada, buffer_vertices, &tamanho_buffer))
     {
+        // garantir que os primeiros vertices a serem processados sejam os que tem mais filhos
+        ordenar_buffer(buffer_vertices, tamanho_buffer, grau_saida, grafo->numero_vertices - 1);
+
         while (tamanho_buffer > 0)
         {
             // obter vertice para colocar na matriz
@@ -186,6 +220,8 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
             {
                 index_coluna = 0;
                 index_linha++;
+                tamanho_buffer = 0; // resetar o buffer e buscar novamente para adicionar ao buffer
+                                    // os vertices filhos dos vertices ja processados na linha anterior
             }
         }
 
