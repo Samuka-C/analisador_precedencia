@@ -85,6 +85,8 @@ fila* criar_fila()
     nova_fila->numero_items = 0;
     nova_fila->primeiro_item = NULL;
     nova_fila->ultimo_item = NULL;
+
+    return nova_fila;
 }
 
 void destruir_fila(fila* fila)
