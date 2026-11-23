@@ -19,7 +19,7 @@ enum estado_vertice {
  * 
  * @return 1 se houver um ciclo, 0 caso contrário
  */
-int busca_profundidade_encontrar_ciclo(grafo* grafo, enum estado_vertice* estado, int vertice)
+int busca_profundidade_encontrar_ciclo(grafo* grafo, enum estado_vertice estado[], int vertice)
 {
     estado[vertice] = visitado;
 
@@ -67,7 +67,7 @@ int detectar_ciclo(grafo* grafo)
  * 
  * @return 1 caso foi possivel encontrar vertices com grau zero não concluidos, 0 caso contrário.
  */
-int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice* estado, int* grau_entrada, int* buffer_vertices, int* tamanho_buffer)
+int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice estado[], int grau_entrada[], int buffer_vertices[], int* tamanho_buffer)
 {
     int encontrou_vertice = 0;
 
