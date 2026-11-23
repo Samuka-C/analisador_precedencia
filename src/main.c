@@ -4,6 +4,7 @@
 #include <algoritimos_grafos.h>
 
 #include <stdio.h>
+#include <dirent.h>
 
 #define NUMERO_PROCESSADORES_TESTE 4
 
@@ -53,7 +54,7 @@ void analisar_grafo(grafo* grafo)
     if (ciclo)
     {
         printf("CICLO: existe\n");
-        printf("não é possivel encontrar uma ordem topologica\n");
+        printf("nao eh possivel encontrar uma ordem topologica\n\n");
         return;
     }
 
@@ -72,13 +73,31 @@ void analisar_grafo(grafo* grafo)
 
     printf("ordem de processamento para tempo minimo com %d processadores:\n", NUMERO_PROCESSADORES_TESTE);
     escrever_matriz_topologica(grafo, NUMERO_PROCESSADORES_TESTE, vertices_ordenados_matriz);
+
+    printf("\n");
 }
 
 int main()
 {
-    grafo* grafo = ler_grafo("grafo_0");
+    DIR* dir = opendir("grafos_teste");
 
-    analisar_grafo(grafo);
+    struct dirent* entrada;
+
+    while ((entrada = readdir(dir)) != NULL)
+    {
+        const char* nome = entrada->d_name;
+        char* extensao = strrchr(nome, '.');
+
+        if (extensao == NULL || strcmp(extensao, ".txt") != 0)
+            continue;
+
+        *extensao = '\0';
+        
+        grafo* grafo = ler_grafo(nome);
+
+        printf("%s:\n", nome);
+        analisar_grafo(grafo);
+    }
 
     return 0;
 }
