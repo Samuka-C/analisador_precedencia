@@ -260,7 +260,7 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
         // garantir que os primeiros vertices a serem processados sejam os que tem mais filhos
         ordenar_buffer(buffer_vertices, tamanho_buffer, grau_saida, grafo->numero_vertices - 1);
 
-        while (tamanho_buffer > 0)
+        while (tamanho_buffer > 0 && index_coluna < numero_colunas)
         {
             // obter vertice para colocar na matriz
             int vertice = buffer_vertices[tamanho_buffer - 1];
@@ -281,20 +281,10 @@ void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[
 
             // mover local de escrita na matriz
             index_coluna++;
-            if (index_coluna >= numero_colunas)
-            {
-                index_coluna = 0;
-                index_linha++;
-                tamanho_buffer = 0; // resetar o buffer e buscar novamente para adicionar ao buffer
-                                    // os vertices filhos dos vertices ja processados na linha anterior
-            }
         }
 
-        // garantir que os proximos vertices do buffer não sejam escritos em uma linha com outros vertices
-        if (index_coluna > 0)
-        {
-            index_coluna = 0;
-            index_linha++;
-        }
+        tamanho_buffer = 0;
+        index_coluna = 0;
+        index_linha++;
     }
 }
