@@ -89,6 +89,46 @@ int procurar_vertices_grau_zero(grafo* grafo, enum estado_vertice estado[], int 
 }
 
 /**
+ * @brief obtem um vertice de grau zero não visitado. marca ele como concluido e diminui o grau dos seus filhos
+ * 
+ * @param grafo grafo a qual os vertices pertecem
+ * @param estado vetor de estado dos vertices
+ * @param grau_entrada vetor de grau de entrada dos vertices
+ * @param vertice_saida ponteiro para escrever o valor do vertice de saida
+ * 
+ * @return 1 se pode obter um vertice, 0 caso contrário
+ */
+int obter_vertice_grau_zero(grafo* grafo, enum estado_vertice* estado, int* grau_entrada, int* vertice_saida)
+{
+    int encontrou_vertice = 0;
+
+    for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
+    {
+        if (estado[vertice] != nao_visitado)
+            continue;
+
+        if (grau_entrada[vertice] != 0)
+            continue;
+        
+        for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
+        {
+            if (!grafo->matriz[vertice][vertice_filho])
+                continue;
+            
+            grau_entrada[vertice_filho]--;
+        }
+
+        estado[vertice] = concluido;
+
+        *vertice_saida = vertice;
+
+        return 1;
+    }
+
+    return 0;
+}
+
+/**
  * @brief ordena o buffer de vertices baseado no grau de saida do menor para o maior
  */
 void ordenar_buffer(int buffer_vertices[], int tamanho_buffer, int grau_saida[], int maximo_grau_entrada)
@@ -125,12 +165,36 @@ void obter_ordem_topologica(grafo* grafo, int array_vertices[])
         return;
     }
 
-    int matriz_intermediaria[grafo->numero_vertices][1];
+    // criar vetor de estado para os vertices e marcar todos como não visitados
+    enum estado_vertice estado[grafo->numero_vertices];
+    int grau_entrada[grafo->numero_vertices];
 
-    obter_matriz_topologica(grafo, 1, matriz_intermediaria);
+    for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
+    {
+        estado[vertice] = nao_visitado;
+        grau_entrada[vertice] = 0;
+    }
 
-    for (int index = 0; index < grafo->numero_vertices; index++)
-        array_vertices[index] = matriz_intermediaria[index][0];
+    // obter o grau de entrada de todos os vertices
+    for (int vertice = 0; vertice < grafo->numero_vertices; vertice++)
+    {
+        for (int vertice_filho = 0; vertice_filho < grafo->numero_vertices; vertice_filho++)
+        {
+            if (!grafo->matriz[vertice][vertice_filho])
+                continue;
+
+            grau_entrada[vertice_filho]++;
+        }
+    }
+
+    int index_array = 0;
+    int vertice;
+
+    while (obter_vertice_grau_zero(grafo, estado, grau_entrada, &vertice))
+    {
+        array_vertices[index_array] = vertice;
+        index_array++;
+    }
 }
 
 void obter_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_saida[][numero_colunas])
