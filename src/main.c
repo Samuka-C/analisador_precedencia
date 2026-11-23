@@ -5,58 +5,80 @@
 
 #include <stdio.h>
 
-int main()
+#define NUMERO_PROCESSADORES_TESTE 4
+
+void escrever_ordem_topologica(grafo* grafo, int ordem_topologica[])
 {
-    grafo* grafo = ler_grafo("grafo_0");
-
-    // printf("grafo:\n");
-    // printar_grafo(grafo);
-    // printf("---\n");
-
-    int ciclo = detectar_ciclo(grafo);
-
-    if (ciclo)
-        printf("CICLO: existe\n");
-    else
-        printf("CICLO: nao existe\n");
-
-    /*
-    int vertices_ordenados[grafo->numero_vertices];
-    obter_ordem_topologica(grafo, vertices_ordenados);
-
-    printf("ORDEM: ");
-
-    for (int i = 0; i < grafo->numero_vertices; i++)
+    for (int index = 0; index < grafo->numero_vertices; index++)
     {
-        if (i != 0)
-            printf(", ");
-
-        int vertice = vertices_ordenados[i];
-        printf("%s", grafo->nomes[vertice]);
+        printf("%d | %s\n", index, grafo->nomes[ordem_topologica[index]]);
     }
+}
 
-    printf("\n");
-    */
-
-    int vertices_ordenados[grafo->numero_vertices][4];
-    obter_matriz_topologica(grafo, 4, vertices_ordenados);
-
-    for (int i = 0; i < grafo->numero_vertices; i++)
+void escrever_matriz_topologica(grafo* grafo, int numero_colunas, int matriz_topologica[][numero_colunas])
+{
+    for (int linha = 0; linha < grafo->numero_vertices; linha++)
     {
-        for (int j = 0; j < 4; j++)
+        if (matriz_topologica[linha][0] == -1)
+            return;
+
+        printf("%d | ", linha);
+
+        for (int coluna = 0; coluna < numero_colunas; coluna++)
         {
-            int vertice = vertices_ordenados[i][j];
+            int vertice = matriz_topologica[linha][coluna];
+
             if (vertice == -1)
                 break;
 
-            if (j != 0)
+            if (coluna != 0)
                 printf(", ");
 
             printf("%s", grafo->nomes[vertice]);
         }
 
-        puts("\n");
+        printf("\n");
     }
+}
+
+void analisar_grafo(grafo* grafo)
+{
+    int ciclo = detectar_ciclo(grafo);
+
+    printf("grafo de tarefas:\n");
+    printar_grafo(grafo);
+
+    printf("\n");
+
+    if (ciclo)
+    {
+        printf("CICLO: existe\n");
+        printf("não é possivel encontrar uma ordem topologica\n");
+        return;
+    }
+
+    printf("CICLO: nao existe\n\n");
+
+    int vertices_ordenados[grafo->numero_vertices];
+    int vertices_ordenados_matriz[grafo->numero_vertices][NUMERO_PROCESSADORES_TESTE];
+
+    obter_ordem_topologica(grafo, vertices_ordenados);
+    obter_matriz_topologica(grafo, NUMERO_PROCESSADORES_TESTE, vertices_ordenados_matriz);
+
+    printf("ordem topologica:\n");
+    escrever_ordem_topologica(grafo, vertices_ordenados);
+
+    printf("\n");
+
+    printf("ordem de processamento para tempo minimo com %d processadores:\n", NUMERO_PROCESSADORES_TESTE);
+    escrever_matriz_topologica(grafo, NUMERO_PROCESSADORES_TESTE, vertices_ordenados_matriz);
+}
+
+int main()
+{
+    grafo* grafo = ler_grafo("grafo_0");
+
+    analisar_grafo(grafo);
 
     return 0;
 }
