@@ -5,6 +5,7 @@ Trabalho da disciplina de Algoritimos em Grafos realizada em 2026.2
 Equipe:
 - Samuel Coelho Camilo
 - Victor Eduardo Pita Campos
+- Pedro Eduardo Barbosa Freitas Ribeiro
 
 ### Funcionalidades
 
